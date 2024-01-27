@@ -1,93 +1,67 @@
-/* Variaveis */
 const Eris = require('eris');
 const limparMensagens = require('./utilidades/limpar');
 const { enviarAjuda } = require('./utilidades/ajuda.js');
 
-const bot = new Eris("MTIwMDIxNDE2NTk3MzkwOTYxNA.GZ3ZQl.Her_9iV1ICCSy0RsHuc9cTpUOFdzPBA56kKrSA");
+const bot = new Eris("MTIwMDIxNDE2NTk3MzkwOTYxNA.G5dBN6.Ih5luieQaLlSkwChA5BpJ3uUbN7NHx-Rd4Wf5g");
 
-/* Liga o bot */
 bot.on('ready', () => {
   console.log('Bot está pronto!');
 });
 
-/* Ajuda */
 bot.on('messageCreate', (msg) => {
   const lowerCase = msg.content.toLowerCase();
 
-  if (lowerCase === 'ajuda') {
-    enviarAjuda(bot, msg.channel.id);
-  }
+  // Se quiser mover para um arquivo separado, crie uma função e a chame aqui
+  handleCommands(lowerCase, msg);
 });
 
-/* Por 1 */
-bot.on('messageCreate', (msg) => {
-  const lowerCase = msg.content.toLowerCase();
-  if (lowerCase === 'por1') {
-    bot.createMessage(msg.channel.id, 'Resultados de hoje: 🟢🟢🟢🟢🔴\nFds!! Foi por 1 caralho!');
-  }
-});
+function handleCommands(lowerCase, msg) {
+  switch (lowerCase) {
+    case 'ajuda':
+      enviarAjuda(bot, msg.channel.id);
+      break;
 
-/* Handicap */
-bot.on('messageCreate', (msg) => {
-  const lowerCase = msg.content.toLowerCase();
-  if (lowerCase === 'handicap') {
-    bot.createMessage(msg.channel.id, 'Vou meter handicap.\nA odd hoje tá de sete e mê!');
-  }
-});
+    case 'por1':
+      bot.createMessage(msg.channel.id, 'Resultados de hoje: 🟢🟢🟢🟢🔴\nFds!! Foi por 1 caralho!');
+      break;
 
-/* Prezi Tips */
-bot.on('messageCreate', (msg) => {
-  const lowerCase = msg.content.toLowerCase();
-  if (lowerCase === 'como é que entro no teu grupo presi?'|| lowerCase === 'como e que entro no teu grupo presi?') {
-    bot.createMessage(msg.channel.id, 'Esquema de piramide, hoje está em promoção pagas 30€ e é vitalício!\nEsquema de piramide metes 3 pessoas por ti ganhas o dobro, a sexta pessoa, já não ganhas nada, só ganho eu!\n\nRespeita a banca e paga ao Presi pah!! 🤪🤪');
-  }
-});
+    case 'handicap':
+      bot.createMessage(msg.channel.id, 'Vou meter handicap.\nA odd hoje tá de sete e mê!');
+      break;
 
-/* Match History */
-bot.on('messageCreate', (msg) => {
-  const lowerCase = msg.content.toLowerCase();
-  if (lowerCase === 'como é que tá o teu match history presi?' || lowerCase === 'como e que ta o teu match history presi?') {
-    bot.createMessage(msg.channel.id, 'Hoje está assim: 🟢🔴🔴🔴🔴🔴🔴🟢🔴🔴🔴🔴');
-  }
-});
+    case 'como é que entro no teu grupo presi?':
+    case 'como e que entro no teu grupo presi?':
+      bot.createMessage(msg.channel.id, 'Esquema de pirâmide, hoje está em promoção pagas 30€ e é vitalício!\nMetes 3 pessoas por ti ganhas o dobro, a sexta pessoa, já não ganhas nada, só ganho eu!\n\nRespeita a banca e paga ao Presi pah!! 🤪🤪');
+      break;
 
-/* Insta */
-bot.on('messageCreate', (msg) => {
-  const lowerCase = msg.content.toLowerCase();
-  if (lowerCase === 'insta') {
-    bot.createMessage(msg.channel.id, 'Segue o insta em: **@Presi_Tips**\nSabias que eu já comi a Georgina? Ah posé, segue-me no insta!');
-  }
-});
+    case 'como é que tá o teu match history presi?':
+    case 'como e que ta o teu match history presi?':
+      let matchHistory = '';
+      for (let i = 0; i < 12; i++) {
+        const randomNumber = Math.random();
+        const ballColor = randomNumber < 0.8 ? '🔴' : '🟢';
+        matchHistory += ballColor;
+      }
+      bot.createMessage(msg.channel.id, `Agora está assim: ${matchHistory}`);
+      break;
 
-/* Apostas */
-bot.on('messageCreate', (msg) => {
-  const lowerCase = msg.content.toLowerCase();
-  if (lowerCase === 'apostas para hoje presi?') {
-    bot.createMessage(msg.channel.id, 'Na vô dizêre!');
-  }
-});
+    case 'insta':
+      bot.createMessage(msg.channel.id, 'Segue o insta em: **@Presi_Tips**\nSabias que eu já comi a Georgina? Ah posé, segue-me no insta!');
+      break;
 
-/* Apostas */
-bot.on('messageCreate', (msg) => {
-  const lowerCase = msg.content.toLowerCase();
-  if (lowerCase === 'teste') {
-    bot.createMessage(msg.channel.id, 'Tô a funceminare!');
-  }
-});
+    case 'apostas para hoje presi?':
+      bot.createMessage(msg.channel.id, 'Na vô dizêre!');
+      break;
 
-/* Utilidades */
-bot.on('messageCreate', (msg) => {
-  const lowerCase = msg.content.toLowerCase();
-  if (lowerCase.startsWith('limpar')) {
-    limparMensagens(bot, msg);
-  }
-});
+    case 'teste':
+      bot.createMessage(msg.channel.id, 'Tô a funceminare!');
+      break;
 
-/* Conecta o Bot */
+    default:
+      if (lowerCase.startsWith('limpar')) {
+        limparMensagens(bot, msg);
+      }
+  }
+}
+
 bot.connect();
-
-/* 
-  É preciso passar tudo para um switch case() dentro de um novo ficheiro para funcoes de mensagem
-
-  Match History tem de ser passado para o random
-*/
