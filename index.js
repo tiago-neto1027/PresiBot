@@ -2,7 +2,7 @@ const Eris = require('eris');
 const limparMensagens = require('./utilidades/limpar');
 const { enviarAjuda } = require('./utilidades/ajuda.js');
 
-const bot = new Eris("MTIwMDIxNDE2NTk3MzkwOTYxNA.G5dBN6.Ih5luieQaLlSkwChA5BpJ3uUbN7NHx-Rd4Wf5g");
+const bot = new Eris(BOT.TOKEN);
 
 bot.on('ready', () => {
   console.log('Bot está pronto!');
